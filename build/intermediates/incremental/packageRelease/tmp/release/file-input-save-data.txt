@@ -1,0 +1,11 @@
+#Internal package file, do not edit.
+#Thu Mar 21 18:41:52 CST 2019
+1.base=D\:\\develop\\packages\\work\\AsProjects\\AppTest10\\build\\intermediates\\transforms\\dexMerger\\release\\0
+0.baseType=DIRECTORY
+1.baseType=DIRECTORY
+count=2
+1.set=DEX
+0.path=xposed_init
+0.set=ASSET
+0.base=D\:\\develop\\packages\\work\\AsProjects\\AppTest10\\build\\intermediates\\merged_assets\\release\\mergeReleaseAssets\\out
+1.path=classes.dex

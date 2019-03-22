@@ -1,0 +1,95 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+
+    }
+}
+apply plugin: 'com.android.application'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation files('lib/fastjson-1.2.56.jar')
+    implementation files('lib/nv-websocket-client-2.6.jar')
+    compileOnly files('lib/api-82.jar')
+
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "28.0.3"
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+        sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        androidTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+
+    signingConfigs {
+        release {
+            storeFile file("../configure/alipay.jks")
+            storePassword 'fyalipay'
+            keyAlias 'alipay'
+            keyPassword 'fyalipay'
+        }
+
+//        debug {
+//            storeFile file("../configure/alipay.jks")
+//            storePassword 'fyalipay'
+//            keyAlias 'alipay'
+//            keyPassword 'fyalipay'
+//        }
+    }
+
+    buildTypes {
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆暂时关闭
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+
+            // 移除无用的resource文件
+            //shrinkResources true
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+repositories {
+    google()
+}
